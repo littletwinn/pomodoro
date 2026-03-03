@@ -89,47 +89,7 @@
             letter-spacing: 3px;
         }
 
-        /* ===== TOGGLE SWITCH ===== */
-        .toggle-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 20px;
-            font-weight: 600;
-            color: #43302e;
-        }
-
-        .toggle-switch {
-            width: 70px;
-            height: 34px;
-            background: #fffcdd;
-            border-radius: 50px;
-            position: relative;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .toggle-circle {
-            width: 28px;
-            height: 28px;
-            background: white;
-            border-radius: 50%;
-            position: absolute;
-            top: 3px;
-            left: 4px;
-            transition: 0.3s;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .toggle-switch.active {
-            background: #d9f2ff;
-        }
-
-        .toggle-switch.active .toggle-circle {
-            transform: translateX(34px);
-        }
-
+        
         /* ===== BUTTONS ===== */
         button {
             padding: 12px 24px;
@@ -257,10 +217,121 @@
             margin-bottom: 10px;
             font-size: 16px;
         }
+
+        /* ===== Spotify Style Play Button ===== */
+        .spotify-btn {
+        width: 85px;
+        height: 85px;
+        border-radius: 50%;
+        border: none;
+        background: #eaf8ff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        margin: 20px auto;
+        transition: 0.25s;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .spotify-btn:hover {
+        transform: scale(1.08);
+        }
+
+        .spotify-btn:active {
+        transform: scale(0.95);
+        }
+
+        .spotify-btn .icon {
+        font-size: 34px;
+        color: #43302e;
+        margin-left: 4px; /* ทำให้ play icon ตรงกลางสวย */
+        }
+
+        /* ===== Mode Switch Container ===== */
+.mode-switch{
+    position:fixed;
+    top:20px;
+    left:30px; /* ซ้ายบน */
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:13px;
+    color:#43302e;
+    z-index:1000;
+}
+
+/* Hide checkbox */
+.switch input{
+    display:none;
+}
+
+/* Switch box */
+.switch{
+    position:relative;
+    width:52px;
+    height:26px;
+}
+
+/* Slider background */
+.slider{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:#562F00;
+    border-radius:30px;
+    transition:0.3s;
+    cursor:pointer;
+}
+
+/* Circle */
+.slider::before{
+    content:"";
+    position:absolute;
+    width:20px;
+    height:20px;
+    left:3px;
+    top:3px;
+    background:white;
+    border-radius:50%;
+    transition:0.3s;
+    box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* When checked (Timer mode) */
+input:checked + .slider{
+    background:#fffffa;
+}
+
+input:checked + .slider::before{
+    transform:translateX(26px);
+}
+
+/* Theme classes */
+body.pomodoro-mode{
+    background:#eaf8ff;
+}
+
+body.timer-mode{
+    background:#fffffa;
+}
     </style>
 </head>
 
 <body>
+
+   <div class="mode-switch">
+  <span class="label-left">Pomodoro</span>
+
+  <label class="switch">
+    <input type="checkbox" id="modeToggle">
+    <span class="slider"></span>
+  </label>
+
+  <span class="label-right">Timer</span>
+</div>
 
     <div class="main">
         <div class="timer-card">
@@ -270,14 +341,9 @@
             <div id="round">Round: 1</div>
             <div id="timer" class="time">25:00</div>
 
-            <!-- TOGGLE -->
-            <div class="toggle-container">
-                <span>Pause</span>
-                <div class="toggle-switch" onclick="toggleTimer()" id="toggleSwitch">
-                    <div class="toggle-circle"></div>
-                </div>
-                <span>Start</span>
-            </div>
+            <button class="spotify-btn" onclick="toggleTimer()" id="playButton">
+                <span class="icon">▶</span>
+            </button>
 
             <button class="reset-btn" onclick="resetTimer()">Reset</button>
             <button class="focus-btn" onclick="openFocus()">Focus Mode</button>
@@ -310,8 +376,7 @@
     
 
     <script src="script.js"></script>
-
-
+    <script src="theme.js"></script>
 
     <script type="module">
 
@@ -379,6 +444,7 @@
   window.addTime = addTime;
 
 </script>
+
 
 </body>
 </html>
